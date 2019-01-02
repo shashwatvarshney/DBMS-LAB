@@ -1,0 +1,40 @@
+create table part
+(pno varchar(3) Primary key,
+pname varchar(10),
+color varchar(10));
+insert into part values('p1','bolt','black');
+insert into part values('p2','chaabi','green');
+insert into part values('p3','dabri','silver');
+create table supplier
+(sno varchar(3) Primary key,
+sname varchar(10),
+address varchar(12));
+insert into supplier values('s1','ram','mathikere');
+insert into supplier values('s2','omware','mgroad');
+insert into supplier values('s3','shyam','yeshwantpur');
+create table supply
+(pno varchar(3) references part(pno) on delete cascade,
+sno varchar(3) references supply(sno) on delete cascade,
+quantity number(4),
+Primary key(pno,sno));
+insert into supply values('p1','s1',4);
+insert into supply values('p1','s2',6);
+insert into supply values('p2','s2',3);
+insert into supply values('p3','s3',2);
+
+select pno
+from supply
+where sno=(select sno from supplier where sname='ram');
+
+select supplier.sname
+from supply
+inner join supplier on supply.sno=supplier.sno
+inner join part on supply.pno=part.pno
+where pname='bolt';
+
+
+
+delete from part
+where color='green';
+select *
+from part;

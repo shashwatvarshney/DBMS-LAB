@@ -1,0 +1,50 @@
+create table part
+(pno varchar(3) Primary key,
+pname varchar(10),
+color varchar(10));
+
+insert into part values('p1','bolt','black');
+insert into part values('p2','chaabi','red');
+insert into part values('p3','dabri','silver');
+
+create table warehouse
+(wno varchar(3) Primary key,
+wname varchar(10),
+city varchar(12));
+
+insert into warehouse values('w1','ramware','blr');
+insert into warehouse values('w2','omware','majestic');
+insert into warehouse values('w3','shyamware','yelankha');
+
+create table shipment
+(pno varchar(3) references part(pno) on delete cascade,
+wno varchar(3) references warehouse(wno) on delete cascade,
+quantity number(4),
+Primary key(pno,wno));
+
+insert into shipment values('p1','w1',2);
+insert into shipment values('p2','w1',3);
+insert into shipment values('p1','w2',4);
+insert into shipment values('p2','w2',5);
+insert into shipment values('p1','w3',2);
+insert into shipment values('p3','w3',3);
+insert into shipment values('p2','w3',4);
+
+select warehouse.wname
+from shipment
+inner join warehouse on shipment.wno=warehouse.wno
+inner join part on shipment.pno=part.pno
+where color='red';
+
+select pno
+from shipment
+group by pno
+having count(wno)=(select count(wno) from warehouse);
+
+select count(part.pno),warehouse.wname
+from shipment
+inner join part on shipment.pno=part.pno
+inner join warehouse on shipment.wno=warehouse.wno
+group by warehouse.wno
+order by count(part.pno) asc;
+

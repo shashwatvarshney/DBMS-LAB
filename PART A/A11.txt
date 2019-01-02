@@ -1,0 +1,44 @@
+create table employee
+(ssn number(3) Primary key,
+name varchar(20),deptno number(3));
+
+create table project
+(projectno varchar(3) Primary key,
+projectarea varchar(10));
+
+create table assignedto
+(usn number(3),
+projectno number(3),
+Primary key(usn,projectno),
+foreign key(usn) references employee(ssn),
+foreign key(projectno) references project(projectno));
+
+
+insert into employee values(1,'aks',12);
+insert into employee values(2,'shas',13);
+insert into employee values(3,'babla',14);
+insert into employee values(4,'babu',13);
+insert into project values('p1','ml');
+insert into project values('p2','dl');
+insert into project values('p3','database');
+insert into assignedto values(1,'p1');
+insert into assignedto values(2,'p2');
+insert into assignedto values(3,'p3');
+insert into assignedto values(2,'p3');
+
+select *
+from assignedto;
+select usn
+from assignedto
+where projectno=(select projectno from project where projectarea='database');
+
+select count(ssn),deptno
+from employee
+group by deptno
+order by count(ssn) asc;
+
+update assignedto
+set projectno='p20'
+where usn=1;
+select *
+from assignedto;

@@ -1,0 +1,13 @@
+db.createCollection("WAREHOUSE")
+
+db.WAREHOUSE.insert({"PNO":1947,"Pname":'bolts',"Colour":'Black',"SNO":1234,"Sname":'ABC',"Address":'blore'})
+
+db.WAREHOUSE.insert({"PNO":1950,"Pname":'chain',"Colour":'Blue',"SNO":4567,"Sname":'DEF',"Address":'chen'})
+
+db.WAREHOUSE.find().pretty()
+
+a> db.WAREHOUSE.update({"PNO":1950},{$set:{"PNO":2017}},{multi:true})
+>db.WAREHOUSE.find().pretty()
+
+
+b> db.WAREHOUSE.find({"PNO":2017}).pretty()

@@ -1,0 +1,47 @@
+create table boat
+(bid varchar(3) Primary key,
+bname varchar(10),
+color varchar(10));
+
+insert into boat values('b1','yatch','black');
+insert into boat values('b2','yamp','green');
+insert into boat values('b3','dappler','silver');
+
+create table sailor
+(sid varchar(3) Primary key,
+sname varchar(10),
+rating number(2));
+
+insert into sailor values('s1','ram',5);
+insert into sailor values('s2','omware',4);
+insert into sailor values('s3','shyam',5);
+
+create table reserves
+(bid varchar(3) references boat(bid) on delete cascade,
+sid varchar(3) references sailor(sid) on delete cascade,
+day varchar(4),
+Primary key(bid,sid));
+
+insert into reserves values('b1','s1','mon');
+insert into reserves values('b2','s1','mon');
+insert into reserves values('b1','s2','tues');
+insert into reserves values('b2','s2','wed');
+insert into reserves values('b1','s3','sat');
+insert into reserves values('b3','s3','fri');
+insert into reserves values('b2','s3','fri');
+
+select bid
+from reserves
+where sid=(select sid from sailor where sname='ram');
+
+select bid
+from reserves
+group by bid
+having count(sid) = (select count(sid) from sailor);
+
+select count(sailor.sname),sailor.sname
+from reserves
+inner join sailor on reserves.sid=sailor.sid
+inner join boat on reserves.bid=boat.bid
+group by sailor.sname
+order by count(sailor.sname) asc;
