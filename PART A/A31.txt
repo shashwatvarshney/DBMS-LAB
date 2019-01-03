@@ -39,7 +39,7 @@ from reserves
 group by bid
 having count(sid) = (select count(sid) from sailor);
 
-select count(sailor.sname),sailor.sname
+select count(boat.bid),sailor.sname
 from reserves
 inner join sailor on reserves.sid=sailor.sid
 inner join boat on reserves.bid=boat.bid
